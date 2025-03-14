@@ -24,4 +24,21 @@ public class Lista {
     public void setFim(No fim) {
         this.fim = fim;
     }
+
+    public void insercaoDireta() {
+        No pi = inicio.getProx(), ppos;
+        int aux;
+
+        while (pi != null) {
+            aux = pi.getInfo();
+            ppos = pi;
+
+            while (ppos != inicio && aux < ppos.getAnt().getInfo()) {
+                ppos.setInfo(ppos.getAnt().getInfo());
+                ppos = ppos.getAnt();
+            }
+
+            pi = pi.getProx();
+        }
+    }
 }

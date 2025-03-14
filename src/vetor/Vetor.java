@@ -24,4 +24,19 @@ public class Vetor {
     public void setVet(int[] vet) {
         this.vet = vet;
     }
+
+    public void insercaoDireta() {
+        int pos, aux;
+        for (int i = 1; i < tl; i++) {
+            aux = vet[i];
+            pos = i;
+
+            while (pos > 0 && aux < vet[pos-1]) {
+                vet[pos] = vet[pos - 1];
+                pos--;
+            }
+
+            vet[pos] = aux;
+        }
+    }
 }

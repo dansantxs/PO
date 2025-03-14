@@ -1,5 +1,7 @@
 package arquivo;
 
+import listaencadeada.No;
+
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
@@ -20,7 +22,7 @@ public class Arquivo {
         try {
             arquivo.setLength(pos * Registro.length());
         }
-        catch (IOException exc) {
+        catch (IOException e) {
 
         }
     }
@@ -41,7 +43,7 @@ public class Arquivo {
     public int filesize() {
         try {
             return (int) arquivo.length() / Registro.length();
-        } catch (IOException exc) {
+        } catch (IOException e) {
         }
         return 0;
     }
@@ -52,6 +54,34 @@ public class Arquivo {
         }
         catch (IOException e) {
 
+        }
+    }
+
+    public void insercaoDireta() {
+        int n = filesize();
+        Registro[] registros = new Registro[n];
+
+        for (int i = 0; i < n; i++) {
+            seekArq(i);
+            registros[i] = new Registro();
+            registros[i].leDoArq(arquivo);
+        }
+
+        for (int i = 1; i < n; i++) {
+            Registro aux = registros[i];
+            int pos = i;
+
+            while (pos > 0 && aux.getCodigo() < registros[pos - 1].getCodigo()) {
+                registros[pos] = registros[pos - 1];
+                pos--;
+            }
+
+            registros[pos] = aux;
+        }
+
+        for (int i = 0; i < n; i++) {
+            seekArq(i);
+            registros[i].gravaNoArq(arquivo);
         }
     }
 }
