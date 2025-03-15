@@ -25,6 +25,24 @@ public class Vetor {
         this.vet = vet;
     }
 
+    public int buscaBinaria(int chave, int tl) {
+        int ini = 0, fim = tl / 2, meio = fim / 2;
+
+        while (ini < fim && chave != vet[meio]) {
+            if (chave > vet[meio])
+                ini = meio + 1;
+            else
+                fim = meio - 1;
+
+            meio = (ini + fim) / 2;
+        }
+
+        if (chave > vet[meio])
+            return meio + 1;
+
+        return -1;
+    }
+
     public void insercaoDireta() {
         int pos, aux;
         for (int i = 1; i < tl; i++) {
@@ -35,6 +53,20 @@ public class Vetor {
                 vet[pos] = vet[pos - 1];
                 pos--;
             }
+
+            vet[pos] = aux;
+        }
+    }
+
+    public void insercaoBinaria() {
+        int pos, aux;
+
+        for (int i = 1; i < tl; i++) {
+            aux = vet[i];
+            pos = buscaBinaria(aux, i);
+
+            for (int j = i; j > pos; j--)
+                vet[j] = vet[j - 1];
 
             vet[pos] = aux;
         }
