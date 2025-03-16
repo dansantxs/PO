@@ -72,11 +72,12 @@ public class Vetor {
         }
     }
 
-    public void selecaoDireta () {
+    public void selecaoDireta() {
         int posMenor, aux;
 
         for (int i = 0; i < tl - 1; i++) {
             posMenor = i;
+
             for (int j = i + 1; j < tl; j++)
                 if(vet[j] < vet[posMenor])
                     posMenor = j;
@@ -84,6 +85,26 @@ public class Vetor {
             aux = vet[i];
             vet[i] = vet[posMenor];
             vet[posMenor] = aux;
+        }
+    }
+
+    public void bolha() {
+        int tl2 = tl, aux;
+        boolean flag = true;
+
+        while (tl2 > 1 && flag) {
+            flag = false;
+
+            for (int i = 0; i < tl2 - 1; i++) {
+                if(vet[i] > vet[i + 1]) {
+                    aux = vet[i];
+                    vet[i] = vet[i + 1];
+                    vet[i + 1] = aux;
+                    flag = true;
+                }
+            }
+
+            tl2--;
         }
     }
 }

@@ -76,4 +76,28 @@ public class Lista {
             pposMenor.setInfo(aux);
         }
     }
+
+    public void bolha() {
+        int aux;
+        No ppos = fim, pi;
+        boolean flag = true;
+
+        while (ppos != inicio && flag) {
+            flag = false;
+
+            pi = inicio;
+            while (pi != ppos.getAnt()) {
+                if(pi.getInfo() > pi.getProx().getInfo()) {
+                    aux = pi.getInfo();
+                    pi.setInfo(pi.getProx().getInfo());
+                    pi.getProx().setInfo(aux);
+                    flag = true;
+                }
+
+                pi = pi.getProx();
+            }
+
+            ppos = ppos.getAnt();
+        }
+    }
 }

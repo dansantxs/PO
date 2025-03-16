@@ -116,4 +116,36 @@ public class Arquivo {
             registros[i].gravaNoArq(arquivo);
         }
     }
+
+    public void bolha() {
+        int n = filesize();
+        Registro[] registros = new Registro[n];
+        boolean flag = true;
+
+        for (int i = 0; i < n; i++) {
+            seekArq(i);
+            registros[i] = new Registro();
+            registros[i].leDoArq(arquivo);
+        }
+
+        while (n > 1 && flag) {
+            flag = false;
+
+            for (int i = 0; i < n - 1; i++) {
+                if (registros[i].getCodigo() > registros[i + 1].getCodigo()) {
+                    Registro temp = registros[i];
+                    registros[i] = registros[i + 1];
+                    registros[i + 1] = temp;
+                    flag = true;
+                }
+            }
+
+            n--;
+        }
+
+        for (int i = 0; i < registros.length; i++) {
+            seekArq(i);
+            registros[i].gravaNoArq(arquivo);
+        }
+    }
 }
