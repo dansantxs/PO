@@ -41,24 +41,6 @@ public class Lista {
         return pini;
     }
 
-    public No buscaBinaria(int chave, No inicio, No fim) {
-        No pini = inicio, pfim = fim, pmeio = buscaMeio(inicio, fim);
-
-        while (pini.getInfo() < pfim.getInfo() && chave != pmeio.getInfo()) {
-            if (chave > pmeio.getInfo())
-                pini = pmeio.getProx();
-            else
-                pfim = pmeio.getAnt();
-
-            pmeio = buscaMeio(pini, pfim);
-        }
-
-        if (chave == pmeio.getInfo())
-            return pmeio;
-
-        return null;
-    }
-
     public void insercaoDireta() {
         No pi = inicio.getProx(), ppos;
         int aux;
@@ -73,6 +55,25 @@ public class Lista {
             }
 
             pi = pi.getProx();
+        }
+    }
+
+    public void selecaoDireta () {
+        No pposMenor, pi = inicio, pj;
+        int aux;
+
+        while (pi != fim) {
+            pposMenor = pi;
+            pj = pi.getProx();
+
+            while (pj != null) {
+                if(pj.getInfo() < pposMenor.getInfo())
+                    pposMenor = pj;
+            }
+
+            aux = pi.getInfo();
+            pi.setInfo(pposMenor.getInfo());
+            pposMenor.setInfo(aux);
         }
     }
 }

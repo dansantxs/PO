@@ -71,4 +71,19 @@ public class Vetor {
             vet[pos] = aux;
         }
     }
+
+    public void selecaoDireta () {
+        int posMenor, aux;
+
+        for (int i = 0; i < tl - 1; i++) {
+            posMenor = i;
+            for (int j = i + 1; j < tl; j++)
+                if(vet[j] < vet[posMenor])
+                    posMenor = j;
+
+            aux = vet[i];
+            vet[i] = vet[posMenor];
+            vet[posMenor] = aux;
+        }
+    }
 }

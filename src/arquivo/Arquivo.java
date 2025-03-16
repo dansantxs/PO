@@ -84,4 +84,36 @@ public class Arquivo {
             registros[i].gravaNoArq(arquivo);
         }
     }
+
+    public void selecaoDireta() {
+        int n = filesize();
+        Registro[] registros = new Registro[n];
+
+        for (int i = 0; i < n; i++) {
+            seekArq(i);
+            registros[i] = new Registro();
+            registros[i].leDoArq(arquivo);
+        }
+
+        for (int i = 0; i < n - 1; i++) {
+            int posMenor = i;
+
+            for (int j = i + 1; j < n; j++) {
+                if (registros[j].getCodigo() < registros[posMenor].getCodigo()) {
+                    posMenor = j;
+                }
+            }
+
+            if (posMenor != i) {
+                Registro temp = registros[i];
+                registros[i] = registros[posMenor];
+                registros[posMenor] = temp;
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            seekArq(i);
+            registros[i].gravaNoArq(arquivo);
+        }
+    }
 }
