@@ -107,4 +107,85 @@ public class Vetor {
             tl2--;
         }
     }
+
+    public void shake() {
+        int inicio = 0, fim = tl - 1, aux;
+        boolean flag = true;
+
+        while (inicio < fim && flag) {
+            flag = false;
+            for (int i = inicio; i < fim; i++) {
+                if(vet[i] > vet[i + 1]) {
+                    aux = vet[i];
+                    vet[i] = vet[i + 1];
+                    vet[i + 1] = aux;
+                    flag = true;
+                }
+            }
+            fim--;
+            if (flag) {
+                flag = false;
+                for (int i = fim; i > inicio; i--) {
+                    if(vet[i] < vet[i - 1]) {
+                        aux = vet[i];
+                        vet[i] = vet[i - 1];
+                        vet[i - 1] = aux;
+                        flag = true;
+                    }
+                }
+                inicio++;
+            }
+        }
+    }
+
+    public void heap() {
+        int tl2 = tl, fe, fd, motorF, aux;
+
+        while (tl2 > 1) {
+            for (int i = tl2 / 2 - 1; i >= 0; i--) {
+                fe = 2 * i + 1;
+                fd = fe + 1;
+                motorF = fe;
+
+                if (fd < tl2 && vet[fd] > vet[fe])
+                    motorF = fd;
+
+                if (vet[motorF] > vet[i]) {
+                    aux = vet[motorF];
+                    vet[motorF] = vet[i];
+                    vet[i] = aux;
+                }
+            }
+
+            aux = vet[0];
+            vet[0] = vet[tl2 - 1];
+            vet[tl2 - 1] = aux;
+            tl2--;
+        }
+    }
+
+    public void shell() {
+        int dist = 1, aux, pos;
+
+        while (dist < tl)
+            dist *= 3 + 1;
+
+        dist /= 3;
+
+        while (dist > 0) {
+            for (int i = dist; i < tl; i++) {
+                aux = vet[i];
+                pos = i;
+
+                while (pos >= dist && aux < vet[pos-dist]) {
+                    vet[pos] = vet[pos-dist];
+                    pos -= dist;
+                }
+
+                vet[pos] = aux;
+            }
+
+            dist /= 3;
+        }
+    }
 }
