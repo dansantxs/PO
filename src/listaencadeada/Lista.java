@@ -25,20 +25,16 @@ public class Lista {
         this.fim = fim;
     }
 
-    private No buscaMeio(No pini, No pfim) {
+    private int tamanho() {
         int cont = 0;
-        No aux = pini;
+        No ppos = inicio;
 
-        while(aux != pfim.getProx()) {
+        while (ppos != null) {
             cont++;
-            aux = aux.getProx();
+            ppos = ppos.getProx();
         }
 
-        for (int i = cont / 2; i > 0; i--) {
-            pini = pini.getProx();
-        }
-
-        return pini;
+        return cont;
     }
 
     public void insercaoDireta() {
@@ -54,11 +50,12 @@ public class Lista {
                 ppos = ppos.getAnt();
             }
 
+            ppos.setInfo(aux);
             pi = pi.getProx();
         }
     }
 
-    public void selecaoDireta () {
+    public void selecaoDireta() {
         No pposMenor, pi = inicio, pj;
         int aux;
 
@@ -67,26 +64,29 @@ public class Lista {
             pj = pi.getProx();
 
             while (pj != null) {
-                if(pj.getInfo() < pposMenor.getInfo())
+                if (pj.getInfo() < pposMenor.getInfo())
                     pposMenor = pj;
+
+                pj = pj.getProx();
             }
 
             aux = pi.getInfo();
             pi.setInfo(pposMenor.getInfo());
             pposMenor.setInfo(aux);
+            pi = pi.getProx();
         }
     }
 
     public void bolha() {
-        int aux;
         No ppos = fim, pi;
+        int aux;
         boolean flag = true;
 
-        while (ppos != inicio && flag) {
+        while (ppos != inicio.getProx() && flag) {
             flag = false;
 
             pi = inicio;
-            while (pi != ppos.getAnt()) {
+            while (pi != ppos) {
                 if(pi.getInfo() > pi.getProx().getInfo()) {
                     aux = pi.getInfo();
                     pi.setInfo(pi.getProx().getInfo());
@@ -98,6 +98,83 @@ public class Lista {
             }
 
             ppos = ppos.getAnt();
+        }
+    }
+
+    public void shake() {
+        No pinicio = inicio, pfim = fim, pi;
+        int aux;
+        boolean flag = true;
+
+        while (pinicio != pfim && flag) {
+            flag = false;
+            pi = pinicio;
+
+            while (pi != pfim) {
+                if(pi.getInfo() > pi.getProx().getInfo()) {
+                    aux = pi.getInfo();
+                    pi.setInfo(pi.getProx().getInfo());
+                    pi.getProx().setInfo(aux);
+                    flag = true;
+                }
+
+                pi = pi.getProx();
+            }
+
+            pfim = pfim.getAnt();
+
+            if (flag) {
+                flag = false;
+                pi = pfim;
+
+                while (pi != pinicio) {
+                    if(pi.getInfo() < pi.getAnt().getInfo()) {
+                        aux = pi.getInfo();
+                        pi.setInfo(pi.getAnt().getInfo());
+                        pi.getAnt().setInfo(aux);
+                        flag = true;
+                    }
+
+                    pi = pi.getAnt();
+                }
+
+                pinicio = pinicio.getProx();
+            }
+        }
+    }
+
+    public void shell() {
+        No pi, pj;
+        int dist = 1, aux;
+
+        while (dist < tamanho()) {
+            dist = dist * 3 + 1;
+        }
+
+        dist /= 3;
+
+        while (dist > 0) {
+            pi = inicio;
+
+            for (int i = 0; i < dist && pi != null; i++)
+                pi = pi.getProx();
+
+            while (pi != null) {
+                aux = pi.getInfo();
+                pj = pi;
+
+                while (pj.getAnt() != null && aux < pj.getAnt().getInfo()) {
+                    pj.setInfo(pj.getAnt().getInfo());
+                    pj = pj.getAnt();
+                }
+
+                pj.setInfo(aux);
+
+                for (int i = 0; i < dist && pi != null; i++)
+                    pi = pi.getProx();
+            }
+
+            dist /= 3;
         }
     }
 }
