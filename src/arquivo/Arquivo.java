@@ -148,4 +148,48 @@ public class Arquivo {
             registros[i].gravaNoArq(arquivo);
         }
     }
+
+    public void quickSemPivo() {
+        quickSP(0, filesize() - 1);
+    }
+
+    public void quickSP(int ini, int fim) {
+        int i = ini, j = fim, aux;
+        boolean flag = true;
+        Registro regi = new Registro();
+        Registro regj = new Registro();
+
+        while (i < j) {
+            seekArq(j);
+            regj.leDoArq(arquivo);
+            seekArq(i);
+            regi.leDoArq(arquivo);
+
+            if (flag)
+                while (i < j && regi.getCodigo() <= regj.getCodigo()) {
+                    regi.leDoArq(arquivo);
+                    i++;
+                }
+            else
+                while (i < j && regj.getCodigo() >= regi.getCodigo()) {
+                    seekArq(j);
+                    regj.leDoArq(arquivo);
+                    j--;
+                }
+
+            if (i < j) {
+                seekArq(i);
+                regj.gravaNoArq(arquivo);
+                seekArq(j);
+                regi.gravaNoArq(arquivo);
+                flag = !flag;
+            }
+        }
+
+        if (ini < i - 1)
+            quickSP(ini, i - 1);
+
+        if (j + 1 < fim)
+            quickSP(j + 1, fim);
+    }
 }

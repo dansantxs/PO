@@ -25,18 +25,6 @@ public class Lista {
         this.fim = fim;
     }
 
-    private int tamanho() {
-        int cont = 0;
-        No ppos = inicio;
-
-        while (ppos != null) {
-            cont++;
-            ppos = ppos.getProx();
-        }
-
-        return cont;
-    }
-
     public void insercaoDireta() {
         No pi = inicio.getProx(), ppos;
         int aux;
@@ -176,5 +164,17 @@ public class Lista {
 
             dist /= 3;
         }
+    }
+
+    private int tamanho() {
+        int cont = 0;
+        No ppos = inicio;
+
+        while (ppos != null) {
+            cont++;
+            ppos = ppos.getProx();
+        }
+
+        return cont;
     }
 }

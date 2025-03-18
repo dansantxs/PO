@@ -188,4 +188,33 @@ public class Vetor {
             dist /= 3;
         }
     }
+
+    public void quickSemPivo() {
+        quickSP(0, tl - 1);
+    }
+
+    public void quickSP(int ini, int fim) {
+        int i = ini, j = fim, aux;
+        boolean flag = true;
+
+        while (i < j) {
+            if (flag)
+                while (i < j && vet[i] <= vet[j])
+                    i++;
+            else
+                while (i < j && vet[j] >= vet[i])
+                    j--;
+
+            aux = vet[i];
+            vet[i] = vet[j];
+            vet[j] = aux;
+            flag = !flag;
+        }
+
+        if (ini < i - 1)
+            quickSP(ini, i - 1);
+
+        if (j + 1 < fim)
+            quickSP(j + 1, fim);
+    }
 }
