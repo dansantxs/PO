@@ -217,4 +217,34 @@ public class Vetor {
         if (j + 1 < fim)
             quickSP(j + 1, fim);
     }
+
+    public void quickComPivo() {
+        quickCP(0, tl - 1);
+    }
+
+    public void quickCP(int ini, int fim) {
+        int i = ini, j = fim, pivo = vet[(ini + fim) / 2], aux;
+
+        while (i < j) {
+            while (vet[i] < pivo)
+                i++;
+
+            while (vet[j] > pivo)
+                j--;
+
+            if (i <= j) {
+                aux = vet[i];
+                vet[i] = vet[j];
+                vet[j] = aux;
+                i++;
+                j--;
+            }
+        }
+
+        if (ini < j)
+            quickCP(ini, i - 1);
+
+        if (i < fim)
+            quickCP(j + 1, fim);
+    }
 }
