@@ -247,4 +247,75 @@ public class Vetor {
         if (i < fim)
             quickCP(j + 1, fim);
     }
+
+    public void merge() {
+        int[] vet1 = new int[tl / 2], vet2 = new int[tl / 2];
+        int seq = 1;
+
+        while (seq < tl) {
+            particao(vet1, vet2);
+            fusao(vet1, vet2, seq);
+            seq *= 2;
+        }
+    }
+
+    private void particao(int[] vet1, int[] vet2) {
+        int meio = tl / 2;
+        for (int i = 0; i < meio; i++) {
+            vet1[i] = vet[i];
+            vet2[i] = vet[i + meio];
+        }
+    }
+
+    private void fusao(int[] vet1, int[] vet2, int seq) {
+        int i = 0, j = 0, k = 0, auxSeq = seq;
+
+        while (k < tl) {
+            while (i < seq && j < seq)
+                if (vet1[i] < vet2[j])
+                    vet[k++] = vet1[i++];
+                else
+                    vet[k++] = vet2[j++];
+
+            while (i < seq)
+                vet[k++] = vet1[i++];
+
+            while (j < seq)
+                vet[k++] = vet2[j++];
+
+            seq += auxSeq;
+        }
+    }
+
+    public void mergeSort2() {
+        int[] aux = new int[tl];
+        merge2(0, tl - 1, aux);
+    }
+
+    public void merge2(int esq, int dir, int[] aux) {
+        if (esq < dir) {
+            int meio = (esq + dir) / 2;
+            merge2(esq, meio, aux);
+            merge2(meio + 1, dir, aux);
+            fusao2(esq, meio, meio + 1, dir, aux);
+        }
+    }
+
+    public void fusao2(int ini1, int fim1, int ini2, int fim2, int[] aux) {
+        int i = ini1, j = ini2, k = 0;
+
+        while (k < tl) {
+            while (i < fim1 && j < fim2)
+                if (vet[i] < vet[j])
+                    aux[k++] = vet[i++];
+                else
+                    aux[k++] = vet[j++];
+
+            while (i < fim1)
+                vet[k++] = vet[i++];
+
+            while (j < fim2)
+                vet[k++] = vet[j++];
+        }
+    }
 }
