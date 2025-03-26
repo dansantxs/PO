@@ -8,21 +8,14 @@ public class Vetor {
         this.tl = tl;
         this.vet = vet;
     }
-
-    public int getTl() {
-        return tl;
+    public int getInfo(int i) {
+        return vet[i];
     }
 
-    public void setTl(int tl) {
-        this.tl = tl;
-    }
-
-    public int[] getVet() {
-        return vet;
-    }
-
-    public void setVet(int[] vet) {
-        this.vet = vet;
+    public void exibe() {
+        for (int i = 0; i < tl; i++)
+            System.out.printf(" " + vet[i]);
+        System.out.println();
     }
 
     public int buscaBinaria(int chave, int tl) {
@@ -248,7 +241,7 @@ public class Vetor {
             quickCP(j + 1, fim);
     }
 
-    public void merge() {
+    public void merge1() {
         int[] vet1 = new int[tl / 2], vet2 = new int[tl / 2];
         int seq = 1;
 
@@ -287,16 +280,16 @@ public class Vetor {
         }
     }
 
-    public void mergeSort2() {
+    public void merge2() {
         int[] aux = new int[tl];
-        merge2(0, tl - 1, aux);
+        mergeSort(0, tl - 1, aux);
     }
 
-    public void merge2(int esq, int dir, int[] aux) {
+    public void mergeSort(int esq, int dir, int[] aux) {
         if (esq < dir) {
             int meio = (esq + dir) / 2;
-            merge2(esq, meio, aux);
-            merge2(meio + 1, dir, aux);
+            mergeSort(esq, meio, aux);
+            mergeSort(meio + 1, dir, aux);
             fusao2(esq, meio, meio + 1, dir, aux);
         }
     }
@@ -304,18 +297,19 @@ public class Vetor {
     public void fusao2(int ini1, int fim1, int ini2, int fim2, int[] aux) {
         int i = ini1, j = ini2, k = 0;
 
-        while (k < tl) {
-            while (i < fim1 && j < fim2)
-                if (vet[i] < vet[j])
-                    aux[k++] = vet[i++];
-                else
-                    aux[k++] = vet[j++];
+        while (i <= fim1 && j <= fim2)
+            if (vet[i] < vet[j])
+                aux[k++] = vet[i++];
+            else
+                aux[k++] = vet[j++];
 
-            while (i < fim1)
-                vet[k++] = vet[i++];
+        while (i <= fim1)
+            aux[k++] = vet[i++];
 
-            while (j < fim2)
-                vet[k++] = vet[j++];
-        }
+        while (j <= fim2)
+            aux[k++] = vet[j++];
+
+        for (i = 0; i < k; i++)
+            vet[i + ini1]  = aux[i];
     }
 }

@@ -25,6 +25,25 @@ public class Lista {
         this.fim = fim;
     }
 
+    public void inserirNoFinal(int info) {
+        No caixa = new No(fim, null, info);
+        if (inicio == null)
+            inicio = fim = caixa;
+        else {
+            fim.setProx(caixa);
+            fim = caixa;
+        }
+    }
+
+    public void exibe() {
+        No aux = inicio;
+        while (aux != null) {
+            System.out.printf(" " + aux.getInfo());
+            aux = aux.getProx();
+        }
+        System.out.println();
+    }
+
     public void insercaoDireta() {
         No pi = inicio.getProx(), ppos;
         int aux;

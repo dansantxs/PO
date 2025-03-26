@@ -127,4 +127,8 @@ public class Arquivo {
             reg2.gravaNoArq(arq2.arquivo);
         }
     }
+
+    public void fusao (Arquivo arq1, Arquivo arq2, int seq) {
+
+    }
 }
