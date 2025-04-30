@@ -1,16 +1,16 @@
 package Bimestre2.arvoreb;
 
 public class No {
-    public static final int N = 2;
+    public static final int M = 2;
     private int[] vInfo;
     private int[] vPos;
     private No[] vLig;
     private int tl;
 
     public No () {
-        vInfo = new int[N * 2 + 1];
-        vPos = new int[N * 2 + 1];
-        vLig = new No[N * 2 + 2];
+        vInfo = new int[M * 2 + 1];
+        vPos = new int[M * 2 + 1];
+        vLig = new No[M * 2 + 2];
         tl = 0;
     }
 
@@ -54,9 +54,19 @@ public class No {
     }
 
     public int buscarPos(int info) {
-        return 0;
+        int pos = 0;
+        while (pos < tl && info > vInfo[pos])
+            pos++;
+        return pos;
     }
 
-    public void remanejar(int posArq) {
+    public void remanejar(int pos) {
+        vLig[tl + 1] = vLig[tl];
+
+        for (int i = tl; i > pos; i--) {
+            vInfo[i] = vInfo[i + 1];
+            vPos[i] = vPos[i + 1];
+            vLig[i] = vLig[i + 1];
+        }
     }
 }
