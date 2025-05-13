@@ -117,15 +117,37 @@ public class BTree {
 
     //Exclusão
     public No localizarNo(int info) {
-        return null;
+        No no = raiz;
+        int pos;
+        boolean flag = false;
+
+        while (no != null && !flag)  {
+            pos = no.procurarPosicao(info);
+            if (pos < no.getTl() && info == no.getvInfo(pos))
+                flag = true;
+            else
+                no = no.getvLig(pos);
+        }
+
+        return no;
     }
 
     private No localizarSubE(No no, int pos) {
-        return null;
+        no = no.getvLig(pos);
+
+        while (no.getvLig(0) != null)
+            no = no.getvLig(no.getTl());
+
+        return no;
     }
 
     private No localizarSubD(No no, int pos) {
-        return null;
+        no = no.getvLig(pos);
+
+        while (no.getvLig(0) != null)
+            no = no.getvLig(0);
+
+        return no;
     }
 
     private void resdistribui_concatena(No folha) {
@@ -162,12 +184,52 @@ public class BTree {
             else {
                 //concatenação com a irmã da esquerda
                 if (irmaE != null) {
+                    irmaE.setvInfo(irmaE.getTl(), pai.getvInfo(posPai - 1));
+                    irmaE.setvPos(irmaE.getTl(), pai.getvPos(posPai - 1));
+                    irmaE.setTl(irmaE.getTl() + 1);
+                    pai.remanejarExclusao(posPai - 1);
+                    pai.setTl(pai.getTl() - 1);
 
+                    for (int i = 0; i < folha.getTl(); i++) {
+                        irmaE.setvInfo(irmaE.getTl(), folha.getvInfo(i));
+                        irmaE.setvPos(irmaE.getTl(), folha.getvPos(i));
+                        irmaE.setvLig(irmaE.getTl(), folha.getvLig(i));
+                        irmaE.setTl(irmaE.getTl() + 1);
+                    }
+
+                    irmaE.setvLig(irmaE.getTl(), folha.getvLig(folha.getTl()));
+                    pai.setvLig(posPai - 1, irmaE);
                 }
                 //concatenação com a irmã da direita
                 else {
+                    irmaD.setvInfo(irmaD.getTl(), pai.getvInfo(posPai));
+                    irmaD.setvPos(irmaD.getTl(), pai.getvPos(posPai));
+                    irmaD.setTl(irmaD.getTl() + 1);
+                    pai.remanejarExclusao(posPai);
+                    pai.setTl(pai.getTl() - 1);
 
+                    for (int i = 0; i < folha.getTl(); i++) {
+                        irmaD.setvInfo(irmaD.getTl(), folha.getvInfo(i));
+                        irmaD.setvPos(irmaD.getTl(), folha.getvPos(i));
+                        irmaD.setvLig(irmaD.getTl(), folha.getvLig(i));
+                        irmaD.setTl(irmaD.getTl() + 1);
+                    }
+
+                    irmaE.setvLig(irmaE.getTl(), folha.getvLig(folha.getTl()));
+                    pai.setvLig(posPai - 1, irmaE);
                 }
+
+                if (pai == raiz && pai.getTl() == 0) {
+                    if (irmaE != null)
+                        raiz = irmaE;
+                    else
+                        raiz = irmaD;
+                }
+                else
+                    if (pai != raiz && pai.getTl() < No.m) {
+                        folha = pai;
+                        resdistribui_concatena(folha);
+                    }
             }
     }
 

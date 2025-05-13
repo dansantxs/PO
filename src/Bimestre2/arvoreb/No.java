@@ -41,6 +41,13 @@ public class No {
     }
 
     public void remanejarExclusao(int pos) {
+        vLig[tl + 1] = vLig[tl];
+
+        for (int i = pos; i < tl - 1; i++) {
+            vInfo[i] = vInfo[i + 1];
+            vPos[i] = vPos[i + 1];
+            vLig[i] = vLig[i + 1];
+        }
     }
 
     public int getvInfo(int p) {
