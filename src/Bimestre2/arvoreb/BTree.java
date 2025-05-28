@@ -108,7 +108,6 @@ public class BTree {
         if (raiz != null) {
             for(int i=0; i<raiz.getTl(); i++) {
                 in_ordem(raiz.getvLig(i));
-                System.out.println(raiz.getvInfo(i));
             }
 
             in_ordem(raiz.getvLig(raiz.getTl()));
