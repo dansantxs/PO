@@ -9,10 +9,9 @@ public class Trie {
 
     public void Inserir(String palavra) {
         No folha = raiz;
-        int pos;
 
         for (int i = 0; i < palavra.length(); i++) {
-            pos = palavra.charAt(i) - 'a';
+            int pos = palavra.charAt(i) - 'a';
 
             if (folha.getvLig(pos) == null)
                 folha.setvLig(new No(palavra.charAt(i)), pos);
@@ -23,17 +22,33 @@ public class Trie {
         folha.setFlag(true);
     }
 
-    public void PreOrdem() {
-        PreOrdem(raiz);
-    }
+    public void PercursoPorNivel() {
+        if (raiz != null)  {
+            Fila fila = new Fila();
 
-    private void PreOrdem(No raiz) {
-        if (raiz != null)
             for (int i = 0; i < No.m; i++) {
                 if (raiz.getvLig(i) != null) {
-                    System.out.println(raiz.getvLig(i).getLetra());
-                    PreOrdem(raiz.getvLig(i));
+                    fila.enqueue(raiz.getvLig(i));
                 }
             }
+
+            while (!fila.isEmpty()) {
+                Fila proximoNivel = new Fila();
+
+                while (!fila.isEmpty()) {
+                    No atual = fila.dequeue();
+                    System.out.print("'" + atual.getLetra() + "' ");
+
+                    for (int i = 0; i < No.m; i++) {
+                        if (atual.getvLig(i) != null) {
+                            proximoNivel.enqueue(atual.getvLig(i));
+                        }
+                    }
+                }
+
+                System.out.println();
+                fila = proximoNivel;
+            }
+        }
     }
 }

@@ -7,7 +7,9 @@ public class AplicacaoTrie {
         trie.Inserir("bear");
         trie.Inserir("bell");
         trie.Inserir("bid");
+        trie.Inserir("bull");
+        trie.Inserir("buy");
 
-        trie.PreOrdem();
+        trie.PercursoPorNivel();
     }
 }
